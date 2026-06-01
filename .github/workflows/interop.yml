@@ -1,0 +1,34 @@
+name: Interop
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  rust-interop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout twilic-cpp
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Checkout twilic-rust
+        run: git clone --depth 1 https://github.com/twilic/twilic-rust.git ../twilic-rust
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Configure and build
+        run: |
+          cmake -S . -B build
+          cmake --build build
+
+      - name: Run bidirectional interop
+        env:
+          TWILIC_RUST_DIR: ${{ github.workspace }}/../twilic-rust
+        run: bash scripts/check-interop.sh
