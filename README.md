@@ -2,7 +2,7 @@
 
 C++ implementation of the Twilic wire format and session-aware encoder/decoder.
 
-This library's default `encode` / `decode` API targets Twilic v2.
+This library's default `encode` / `decode` API targets Twilic v2 (v3 support pending).
 
 ## What this library provides
 
